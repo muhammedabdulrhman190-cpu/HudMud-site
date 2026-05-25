@@ -1,11 +1,4 @@
 #!/bin/bash
-
-# ==============================================
-# HudMod Installer Script for Linux
-# Silent installation - No errors shown
-# ==============================================
-
-# الألوان للطباعة الجميلة
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
@@ -19,17 +12,16 @@ INSTALL_DIR="/opt/HudMod"
 DESKTOP_FILE="$HOME/.local/share/applications/hudmod.desktop"
 LAUNCHER_SCRIPT="/usr/local/bin/hudmod"
 
-# 1. التحقق من وجود ملفات اللعبة
-echo -e "${YELLOW}[1/5] Checking game files...${NC}"
+
+echo -e "${YELLOW}[1/5] Checking HudMud files...${NC}"
 
 if [ ! -f "./HudMod.x86_64" ] || [ ! -f "./HudMod.pck" ]; then
-    echo -e "${RED}Error: Required game files not found!${NC}"
+    echo -e "${RED}Error: Required HudMud files not found!${NC}"
     exit 1
 fi
 
-echo -e "${GREEN}✓ Game files found${NC}"
+echo -e "${GREEN}✓ HudMud files found${NC}"
 
-# 2. تثبيت الحزم بصمت (تقريبًا)
 echo -e "${YELLOW}[2/5] Installing dependencies...${NC}"
 
 if [ -f /etc/os-release ]; then
@@ -55,7 +47,6 @@ fi
 
 echo -e "${GREEN}✓ Dependencies installed${NC}"
 
-# 3. نسخ ملفات اللعبة
 echo -e "${YELLOW}[3/5] Copying game files...${NC}"
 
 sudo mkdir -p "$INSTALL_DIR"
@@ -64,7 +55,6 @@ sudo chmod +x "$INSTALL_DIR/HudMod.x86_64"
 
 echo -e "${GREEN}✓ Files copied to $INSTALL_DIR${NC}"
 
-# 4. إنشاء سكريبت التشغيل
 echo -e "${YELLOW}[4/5] Creating launcher...${NC}"
 
 sudo bash -c "cat > $LAUNCHER_SCRIPT" << 'EOF'
@@ -77,10 +67,8 @@ sudo chmod +x "$LAUNCHER_SCRIPT"
 
 echo -e "${GREEN}✓ Launcher created${NC}"
 
-# 5. إضافة الأيقونة والاختصار
 echo -e "${YELLOW}[5/5] Creating desktop shortcut...${NC}"
 
-# البحث عن الأيقونة
 ICON_PATH="applications-games"
 for ext in png ico svg jpg jpeg xpm; do
     if [ -f "./hudmod.$ext" ]; then
@@ -90,10 +78,8 @@ for ext in png ico svg jpg jpeg xpm; do
     fi
 done
 
-# إنشاء مجلد التطبيقات
 mkdir -p "$HOME/.local/share/applications"
 
-# إنشاء ملف الاختصار
 cat > "$DESKTOP_FILE" << EOF
 [Desktop Entry]
 Version=1.0
@@ -111,7 +97,6 @@ update-desktop-database ~/.local/share/applications/ 2>/dev/null
 
 echo -e "${GREEN}✓ Shortcut created${NC}"
 
-# رسالة النهاية
 echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}      Installation Complete! 🎉${NC}"
 echo -e "${GREEN}========================================${NC}"
